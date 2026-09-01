@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ichsan Ghofur Oktafianto — Portofolio Graphic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0b1730;
+    --navy-1:#0f1c38;
+    --navy-2:#16294d;
+    --navy-3:#1c3660;
+    --yellow:#f6bb1e;
+    --yellow-deep:#e0980a;
+    --cream:#fff8e6;
+    --white:#ffffff;
+    --muted:#a9b7d1;
+    --muted-2:#7c89a8;
+    --card:rgba(255,255,255,0.06);
+    --card-border:rgba(255,255,255,0.10);
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--navy-1);
+    color:var(--white);
+    font-family:'Poppins',sans-serif;
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+  img{max-width:100%; display:block;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+
+  /* ---------- Mobile desktop-mode notice ---------- */
+  #desktopNotice{
+    position:fixed; top:0; left:0; right:0; z-index:999;
+    background:var(--yellow); color:var(--navy-deep);
+    font-size:13.5px; font-weight:600;
+    padding:12px 44px 12px 16px;
+    display:none;
+    align-items:center; gap:10px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+  }
+  #desktopNotice.show{display:flex;}
+  #desktopNotice span.emoji{font-size:18px;}
+  #desktopNotice button{
+    position:absolute; right:10px; top:50%; transform:translateY(-50%);
+    background:none; border:none; font-size:20px; line-height:1;
+    color:var(--navy-deep); cursor:pointer; padding:4px 8px; font-weight:700;
+  }
+
+  /* ---------- Nav ---------- */
+  header.site-nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(11,23,48,0.75);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    transition:top .3s ease;
+  }
+  header.site-nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .logo-mark{
+    display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.5px;
+  }
+  .logo-mark .dot{
+    width:10px; height:10px; border-radius:50%; background:var(--yellow);
+  }
+  nav.links{display:flex; gap:28px; font-size:14px; font-weight:600;}
+  nav.links a{color:var(--muted); position:relative; padding:4px 0;}
+  nav.links a:hover{color:var(--white);}
+  nav.links a::after{
+    content:""; position:absolute; left:0; bottom:0; height:2px; width:0;
+    background:var(--yellow); transition:width .25s ease;
+  }
+  nav.links a:hover::after{width:100%;}
+  .nav-toggle{display:none; background:none; border:1px solid var(--card-border); color:var(--white); width:40px; height:40px; border-radius:8px; font-size:18px;}
+
+  @media (max-width:760px){
+    nav.links{
+      position:fixed; top:64px; right:0; height:calc(100vh - 64px);
+      background:var(--navy-2); flex-direction:column; gap:0;
+      width:220px; transform:translateX(100%); transition:transform .3s ease;
+      padding:24px; border-left:1px solid var(--card-border);
+    }
+    nav.links.open{transform:translateX(0);}
+    nav.links a{padding:14px 0; border-bottom:1px solid rgba(255,255,255,0.06); width:100%;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- Decorative blobs / arrow (signature motif) ---------- */
+  .blob{
+    position:absolute; border-radius:50%; background:var(--white);
+    opacity:0.05; filter:blur(0px);
+  }
+  .arrow-motif{
+    position:absolute; width:120px; height:120px; opacity:0.9;
+    pointer-events:none;
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{
+    opacity:0; transform:translateY(36px);
+    transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.visible{opacity:1; transform:translateY(0);}
+  .reveal-stagger > *{
+    opacity:0; transform:translateY(30px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal-stagger.visible > *{opacity:1; transform:translateY(0);}
+  .reveal-stagger.visible > *:nth-child(1){transition-delay:.05s;}
+  .reveal-stagger.visible > *:nth-child(2){transition-delay:.15s;}
+  .reveal-stagger.visible > *:nth-child(3){transition-delay:.25s;}
+  .reveal-stagger.visible > *:nth-child(4){transition-delay:.35s;}
+  .reveal-stagger.visible > *:nth-child(5){transition-delay:.45s;}
+  .reveal-stagger.visible > *:nth-child(6){transition-delay:.55s;}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .reveal-stagger > *{transition:none !important; opacity:1 !important; transform:none !important;}
+  }
+
+  /* ---------- Eyebrow / script label ---------- */
+  .eyebrow{
+    font-family:'Caveat',cursive; font-size:28px; color:var(--yellow);
+    display:inline-block; transform:rotate(-2deg); margin-bottom:2px;
+  }
+  .section-title{
+    font-size:clamp(28px,4vw,42px); font-weight:800; letter-spacing:-0.5px;
+    margin-bottom:6px;
+  }
+  .section-title em{color:var(--yellow); font-style:normal;}
+  .section-sub{color:var(--muted); max-width:560px; font-size:15px; margin-bottom:36px;}
+
+  section{position:relative; padding:110px 0; overflow:hidden;}
+  section.alt{background:var(--navy-2);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh; display:flex; align-items:center;
+    background:
+      radial-gradient(circle at 85% 10%, rgba(246,187,30,0.12), transparent 40%),
+      linear-gradient(180deg, var(--navy-deep), var(--navy-1));
+    position:relative;
+  }
+  .hero .wrap{display:grid; grid-template-columns:1.1fr 1fr; gap:50px; align-items:center; padding-top:64px;}
+  .hero-photo-wrap{
+    position:relative; width:100%; aspect-ratio:1/1.05; max-width:380px;
+  }
+  .hero-photo-blob{
+    position:absolute; inset:0; background:var(--white); border-radius:44% 56% 60% 40% / 50% 45% 55% 50%;
+    z-index:0;
+  }
+  .hero-photo{
+    position:relative; z-index:1; width:88%; height:88%; margin:6% auto 0;
+    border-radius:44% 56% 60% 40% / 50% 45% 55% 50%;
+    overflow:hidden; background:linear-gradient(145deg,#2a3f66,#0e1c38);
+    display:flex; align-items:center; justify-content:center;
+    border:3px solid var(--navy-deep);
+  }
+  .hero-photo .placeholder-txt{color:var(--muted); font-size:13px; text-align:center; padding:20px;}
+  .hero-year{
+    position:absolute; top:-10px; right:0; font-family:'Caveat',cursive; font-size:20px;
+    color:var(--yellow); background:var(--navy-1); padding:4px 14px; border-radius:20px;
+    border:1px solid var(--card-border); transform:rotate(6deg);
+  }
+  .hero-copy .kicker{
+    font-family:'Caveat',cursive; color:var(--yellow); font-size:22px; margin-bottom:4px;
+  }
+  .hero-copy h1{
+    font-size:clamp(42px,6.4vw,74px); font-weight:900; line-height:0.98; letter-spacing:-1px;
+    margin-bottom:14px;
+  }
+  .hero-copy h1 .accent{color:var(--yellow);}
+  .hero-copy .role{
+    font-size:clamp(16px,2vw,20px); font-weight:600; color:var(--muted); margin-bottom:26px;
+  }
+  .hero-copy .contact-row{display:flex; flex-wrap:wrap; gap:14px;}
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:30px; font-size:13.5px; font-weight:600;
+    background:var(--card); border:1px solid var(--card-border); color:var(--white);
+    transition:transform .2s ease, background .2s ease;
+  }
+  .pill:hover{transform:translateY(-2px); background:var(--yellow); color:var(--navy-deep);}
+  .pill.solid{background:var(--yellow); color:var(--navy-deep);}
+  .pill.solid:hover{background:var(--white);}
+
+  .scroll-cue{
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+    font-size:12px; color:var(--muted-2); display:flex; flex-direction:column; align-items:center; gap:8px;
+    letter-spacing:2px; text-transform:uppercase;
+  }
+  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(var(--yellow), transparent); animation:scrollpulse 1.8s infinite;}
+  @keyframes scrollpulse{0%{opacity:.2;}50%{opacity:1;}100%{opacity:.2;}}
+
+  @media (max-width:820px){
+    .hero .wrap{grid-template-columns:1fr; text-align:center; padding-top:100px;}
+    .hero-photo-wrap{margin:0 auto;}
+    .hero-copy .contact-row{justify-content:center;}
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:60px; align-items:start;}
+  .about-text p{color:var(--muted); margin-bottom:16px; max-width:560px;}
+  .quote-mark{font-family:'Caveat',cursive; font-size:56px; color:var(--yellow); line-height:0.5; display:block; margin-bottom:10px;}
+  .about-card{
+    background:var(--card); border:1px solid var(--card-border); border-radius:18px;
+    padding:26px; position:relative;
+  }
+  .about-card h4{font-size:14px; text-transform:uppercase; letter-spacing:1.5px; color:var(--yellow); margin-bottom:14px;}
+  .focus-list{list-style:none;}
+  .focus-list li{
+    display:flex; align-items:flex-start; gap:10px; color:var(--muted); font-size:14.5px;
+    padding:8px 0; border-bottom:1px dashed rgba(255,255,255,0.08);
+  }
+  .focus-list li:last-child{border-bottom:none;}
+  .focus-list li::before{content:"▸"; color:var(--yellow); font-weight:700;}
+  @media (max-width:820px){.about-grid{grid-template-columns:1fr;}}
+
+  /* ---------- SKILLS & SOFTWARE ---------- */
+  .skills-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;}
+  .skill-chip{
+    background:var(--card); border:1px solid var(--card-border); border-radius:12px;
+    padding:16px 18px; font-weight:600; font-size:14.5px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .skill-chip .num{color:var(--yellow); font-family:'Caveat',cursive; font-size:20px;}
+  .software-row{display:flex; gap:14px; margin-top:22px;}
+  .software-badge{
+    width:56px; height:56px; border-radius:14px; background:var(--navy-3);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:12px;
+    border:1px solid var(--card-border);
+  }
+  @media (max-width:600px){.skills-grid{grid-template-columns:1fr;}}
+
+  /* ---------- TIMELINE (experience) ---------- */
+  .timeline{border-left:2px solid var(--card-border); padding-left:26px; display:flex; flex-direction:column; gap:30px;}
+  .timeline .item{position:relative;}
+  .timeline .item::before{
+    content:""; position:absolute; left:-33px; top:4px; width:14px; height:14px;
+    border-radius:50%; background:var(--yellow); border:3px solid var(--navy-1);
+  }
+  .timeline .item .tag{font-size:12px; color:var(--yellow-deep); font-weight:700; text-transform:uppercase; letter-spacing:1px;}
+  .timeline .item h4{font-size:17px; font-weight:700; margin:4px 0 6px;}
+  .timeline .item p{color:var(--muted); font-size:14px;}
+
+  /* ---------- PORTFOLIO GRID / PLACEHOLDER IMAGES ---------- */
+  .port-block{display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;}
+  .port-block.reverse{grid-template-columns:0.9fr 1.1fr;}
+  .port-block.reverse .port-copy{order:2;}
+  .img-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .img-grid.two{grid-template-columns:repeat(2,1fr);}
+  .ph{
+    position:relative; border-radius:16px; overflow:hidden; aspect-ratio:3/4;
+    background:linear-gradient(150deg, var(--g1,#1c3660), var(--g2,#0f1c38));
+    display:flex; align-items:flex-end; padding:10px; border:1px solid var(--card-border);
+    cursor:pointer; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .ph::before{
+    content:"🔍"; position:absolute; top:10px; right:10px; font-size:14px;
+    background:rgba(0,0,0,0.35); width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; transform:translateY(-6px); transition:opacity .2s ease, transform .2s ease;
+  }
+  .ph:hover{transform:translateY(-4px); box-shadow:0 14px 30px rgba(0,0,0,0.35); border-color:var(--yellow);}
+  .ph:hover::before{opacity:1; transform:translateY(0);}
+  .ph:focus-visible{outline:2px solid var(--yellow); outline-offset:2px;}
+  .ph.wide{aspect-ratio:16/9;}
+  .ph span{
+    font-size:11px; color:rgba(255,255,255,0.55); background:rgba(0,0,0,0.35);
+    padding:4px 8px; border-radius:6px; font-weight:600;
+  }
+  .port-copy h3{font-size:26px; font-weight:800; margin-bottom:14px;}
+  .port-copy p{color:var(--muted); margin-bottom:14px; font-size:14.5px;}
+  @media (max-width:820px){
+    .port-block, .port-block.reverse{grid-template-columns:1fr;}
+    .port-block.reverse .port-copy{order:0;}
+    .img-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  .sub-label{
+    font-size:13px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px;
+    color:var(--yellow); margin:26px 0 12px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--navy-deep); padding:90px 0 40px; text-align:center; position:relative;
+  }
+  footer h2{font-size:clamp(38px,7vw,64px); font-weight:900; letter-spacing:-1px;}
+  footer .sub{color:var(--muted); margin:14px 0 30px;}
+  footer .contact-row{display:flex; justify-content:center; gap:14px; flex-wrap:wrap; margin-bottom:50px;}
+  footer .fine{color:var(--muted-2); font-size:12.5px;}
+  footer .fine a{color:var(--yellow); font-weight:600;}
+
+  ::selection{background:var(--yellow); color:var(--navy-deep);}
+
+  /* ---------- Portfolio detail modal ---------- */
+  #portModal{
+    position:fixed; inset:0; z-index:1000;
+    background:rgba(6,12,26,0.82);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; visibility:hidden;
+    transition:opacity .3s ease, visibility 0s linear .3s;
+  }
+  #portModal.open{
+    opacity:1; visibility:visible;
+    transition:opacity .3s ease, visibility 0s linear 0s;
+  }
+  .modal-card{
+    position:relative; width:100%; max-width:640px;
+    background:var(--navy-2); border:1px solid var(--card-border); border-radius:20px;
+    padding:36px; box-shadow:0 30px 60px rgba(0,0,0,0.5);
+    transform:translateY(24px) scale(0.98); opacity:0;
+    transition:transform .35s cubic-bezier(.2,.7,.2,1), opacity .3s ease;
+    max-height:86vh; overflow-y:auto;
+  }
+  #portModal.open .modal-card{transform:translateY(0) scale(1); opacity:1;}
+  .modal-visual{
+    border-radius:14px; aspect-ratio:16/9; margin-bottom:22px;
+    background:linear-gradient(150deg, var(--mg1,#274a86), var(--mg2,#0f1c38));
+    display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--card-border);
+  }
+  .modal-visual span{font-size:12px; color:rgba(255,255,255,0.5); font-weight:600;}
+  .modal-tag{
+    font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px;
+    color:var(--yellow); margin-bottom:8px; display:block;
+  }
+  .modal-card h3{font-size:24px; font-weight:800; margin-bottom:14px;}
+  .modal-card p{color:var(--muted); font-size:14.5px; margin-bottom:0;}
+  .modal-close{
+    position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:50%;
+    background:var(--card); border:1px solid var(--card-border); color:var(--white);
+    font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .modal-close:hover{background:var(--yellow); color:var(--navy-deep); transform:rotate(90deg);}
+
+  @media (max-width:600px){
+    .modal-card{padding:26px 22px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="desktopNotice">
+  <span class="emoji">🖥️</span>
+  <span>Tampilan ini paling maksimal di layar besar. Coba aktifkan <b>“Situs Desktop”</b> dari menu browser untuk pengalaman terbaik.</span>
+  <button id="closeNotice" aria-label="Tutup">×</button>
+</div>
+
+<header class="site-nav">
+  <div class="wrap">
+    <div class="logo-mark"><span class="dot"></span> Ichsan G.O.</div>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu"> ⋮ </button>
+    <nav class="links" id="navLinks">
+      <a href="#about">Tentang</a>
+      <a href="#skills">Skill</a>
+      <a href="#feed">Feed</a>
+      <a href="#story">Story</a>
+      <a href="#cetak">Cetak</a>
+      <a href="#pribadi">Pribadi</a>
+      <a href="#contact">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-copy reveal">
+      <div class="kicker">Portofolio · 2026</div>
+      <h1>Graphic <span class="accent">Design</span></h1>
+      <div class="role">Ichsan Ghofur Oktafianto — Sosial Media &amp; Poster Design</div>
+      <div class="contact-row">
+        <a class="pill solid" href="mailto:ghof.ichsan@gmail.com">✉ ghof.ichsan@gmail.com</a>
+        <a class="pill" href="https://wa.me/6288220187342" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <a class="pill" href="https://id.pinterest.com/ichsango_/_created/" target="_blank" rel="noopener">📌 Pinterest</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap reveal">
+      <div class="hero-year">est. 2026</div>
+      <div class="hero-photo-blob"></div>
+      <div class="hero-photo">
+        <img src="asset/foto-profil.png" alt="Ichsan Ghofur">
+        <!-- Ganti div ini dengan: <img src="foto-anda.jpg" alt="Ichsan Ghofur Oktafianto"> 
+        <div class="placeholder-txt">Taruh foto profil di sini<br>(ganti div .hero-photo dengan tag &lt;img&gt;)</div> -->
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Gulir</span><span class="line"></span></div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-text reveal">
+      <span class="eyebrow">Tentang saya</span>
+      <h2 class="section-title">Ichsan Ghofur <em>Oktafianto</em></h2>
+      <span class="quote-mark">“</span>
+      <p>Bismillah, salam kenal! Saya Ichsan, seorang pegiat desain grafis dengan pengalaman lebih dari satu tahun, khususnya dalam lingkungan organisasi kampus.</p>
+      <p>Fokus desain saya meliputi social media design dan poster design, dengan perhatian pada layout, komposisi visual, dan tipografi. Saya terus mengembangkan kemampuan untuk menghasilkan desain yang tidak hanya menarik secara visual, tetapi juga terstruktur, informatif, dan efektif dalam menyampaikan pesan.</p>
+      <div class="contact-row" style="margin-top:20px;">
+        <a class="pill" href="mailto:ghof.ichsan@gmail.com">ghof.ichsan@gmail.com</a>
+        <a class="pill" href="https://wa.me/6288220187342" target="_blank" rel="noopener">wa.me/6288220187342</a>
+      </div>
+    </div>
+    <div class="about-card reveal">
+      <h4>Fokus Desain</h4>
+      <ul class="focus-list">
+        <li>Layout &amp; komposisi visual publikasi</li>
+        <li>Tipografi sebagai hierarki informasi</li>
+        <li>Konsistensi warna &amp; teori 60-30-10</li>
+        <li>Desain untuk kebutuhan organisasi &amp; komunitas</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS & EXPERIENCE ================= -->
+<section class="alt" id="skills">
+  <div class="wrap">
+    <span class="eyebrow">Kemampuan</span>
+    <h2 class="section-title">Skill &amp; <em>Pengalaman</em></h2>
+    <p class="section-sub">Kombinasi kemampuan desain dan pengalaman organisasi yang membentuk cara saya bekerja.</p>
+
+    <div class="skills-grid reveal-stagger">
+      <div class="skill-chip"><span class="num">01</span> Sosial media design</div>
+      <div class="skill-chip"><span class="num">02</span> Layout &amp; komposisi visual</div>
+      <div class="skill-chip"><span class="num">03</span> Tipografi</div>
+      <div class="skill-chip"><span class="num">04</span> Teori warna</div>
+      <div class="skill-chip"><span class="num">05</span> Design thinking</div>
+      <div class="skill-chip"><span class="num">06</span> Kreativitas</div>
+    </div>
+
+    <div class="software-row reveal">
+      <div class="software-badge">Figma</div>
+      <div class="software-badge">Canva</div>
+    </div>
+
+    <div class="sub-label" style="margin-top:60px;">Pengalaman Organisasi</div>
+    <div class="timeline reveal-stagger">
+      <div class="item">
+        <div class="tag">2025 / 2026 · Koordinator Mentoring Pusat UMS</div>
+        <h4>Ketua Departemen Komunikasi dan Media</h4>
+        <p>Berperan dalam perencanaan, eksekusi, dan pengelolaan media sosial @mentoringums.</p>
+      </div>
+      <div class="item">
+        <div class="tag">2026 · Panitia Gema Kampus Ramadhan UMS</div>
+        <h4>Anggota Divisi Kreatif</h4>
+        <p>Berperan dalam pengelolaan sosial media, pembuatan banner, pamflet, dan operator live streaming.</p>
+      </div>
+      <div class="item">
+        <div class="tag">2026 · Pejuang Masjid UMS</div>
+        <h4>Anggota Departemen Media dan Informasi</h4>
+        <p>Berperan dalam pembuatan pamflet kegiatan, recap dokumentasi, dan penanggung jawab media Cinta Subuh.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DESAIN FEED ================= -->
+<section id="feed">
+  <div class="wrap">
+    <div class="port-block">
+      <div class="img-grid reveal-stagger">
+        <div class="ph" style="--g1:#325a99;--g2:#0f1c38;" data-label="Feed 01" data-tag="Desain Feed" data-title="Publikasi Informasi Kegiatan" data-desc="Feed dengan penyusunan hierarki teks yang jelas: judul besar, sub-informasi, dan detail waktu/tempat. Layout dirancang agar tetap terbaca meski memuat banyak poin informasi."><img src="asset/Dirgahayu-RI.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 1</span></div>
+        <div class="ph" style="--g1:#1c3660;--g2:#132445;" data-label="Feed 02" data-tag="Desain Feed" data-title="Konten Edukatif Berseri" data-desc="Bagian dari feed bertema informasi bertahap, menggunakan tipografi konsisten antar slide agar audiens mudah mengikuti alur pesan dari satu postingan ke postingan berikutnya."><img src="asset/mentoringspesial-1.jpg" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 2</span></div>
+        <div class="ph" style="--g1:#325a99;--g2:#0f1c38;" data-label="Feed 03" data-tag="Desain Feed" data-title="Poster Pengumuman" data-desc="Poster pengumuman dengan komposisi visual yang menonjolkan judul utama, didukung elemen pendukung agar informasi penting langsung tertangkap mata dalam sekali lihat."><img src="asset/Modern Style Puasa Arafah.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 3</span></div>
+        <div class="ph" style="--g1:#1c3660;--g2:#132445;" data-label="Feed 04" data-tag="Desain Feed" data-title="Desain Tematik Hari Besar" data-desc="Desain feed untuk momen hari besar/nasional, memadukan warna khas tema dengan tata letak yang tetap mengikuti sistem desain akun agar identitas visual tetap konsisten."><img src="asset/Line Up Pemateri.png"alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 4</span></div>
+        <div class="ph" style="--g1:#274a86;--g2:#0f1c38;" data-label="Feed 05" data-tag="Desain Feed" data-title="Infografis Ringkas" data-desc="Infografis dengan pembagian blok informasi yang rapi, memanfaatkan ikon dan warna untuk membedakan kategori data tanpa membuat tampilan terasa penuh."><img src="asset/Cover Sosialisasi Ujian.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 5</span></div>
+        <div class="ph" style="--g1:#325a99;--g2:#132445;" data-label="Feed 06" data-tag="Desain Feed" data-title="Publikasi Kolaborasi" data-desc="Desain untuk publikasi bersama komunitas/organisasi lain, menyesuaikan elemen brand kedua pihak sambil menjaga keterbacaan dan hierarki informasi utama."><img src="asset/Info Libur.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 6</span></div>
+      </div>
+      <div class="port-copy reveal">
+        <span class="eyebrow">Publikasi informasi</span>
+        <h3>Desain Feed</h3>
+        <p>Desain dengan berbagai style dan layout untuk kebutuhan publikasi informasi. Penerapan tata letak, hierarki, dan tipografi menjadi nilai utama pada penyusunan desain.</p>
+        <p>Setiap konten dirancang agar tetap enak dibaca meski memuat banyak informasi, dengan tata letak yang konsisten antar postingan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DESAIN STORY ================= -->
+<section class="alt" id="story">
+  <div class="wrap">
+    <div class="port-block reverse">
+      <div class="port-copy reveal">
+        <span class="eyebrow">Konten sosial media</span>
+        <h3>Desain Story</h3>
+        <p>Kebutuhan pada unggahan cerita di sosial media, penyesuaian canvas, dan tata letak. Semua desain menggunakan align-center untuk memfokuskan audiens sehingga informasi yang disampaikan dapat berjalan efektif.</p>
+        <p>Elemen ditempatkan pada zona hijau untuk menghindari tertutupnya informasi oleh elemen aplikasi.</p>
+      </div>
+      <div class="img-grid two reveal-stagger">
+        <div class="ph" style="aspect-ratio:9/16;--g1:#e0980a;--g2:#12213e;" data-label="Story 01" data-tag="Desain Story" data-title="Countdown Acara" data-desc="Story hitung mundur menjelang acara, menggunakan align-center agar fokus audiens langsung tertuju pada angka dan pesan utama tanpa terganggu elemen lain."><img src="asset/Countdown MLT H-1.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Story 01</span></div>
+        <div class="ph" style="aspect-ratio:9/16;--g1:#274a86;--g2:#0f1c38;" data-label="Story 02" data-tag="Desain Story" data-title="Pengumuman Singkat" data-desc="Story informasi singkat dengan elemen ditempatkan di zona hijau (area aman), menghindari tertutupnya teks penting oleh ikon profil dan tombol balas dari aplikasi."><img src="asset/Countdown MLT H-2.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Story 02</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DESAIN CETAK ================= -->
+<section id="cetak">
+  <div class="wrap">
+    <span class="eyebrow">Materi cetak</span>
+    <h2 class="section-title">Desain <em>Cetak</em></h2>
+    <p class="section-sub">Sertifikat dan banner yang dirancang mengikuti brief serta kebutuhan acara.</p>
+
+    <div class="sub-label">Sertifikat</div>
+    <div class="port-block">
+      <div class="img-grid reveal-stagger">
+        <div class="ph" style="aspect-ratio:4/3;--g1:#1c3660;--g2:#132445;" data-label="Sertifikat 01" data-tag="Desain Cetak · Sertifikat" data-title="Sertifikat Panitia" data-desc="Sertifikat untuk panitia kegiatan dengan layout formal dan seimbang, memakai perbandingan warna 60-30-10 agar tampilan tetap elegan dan tidak berlebihan."><img src="asset/Sertif Mentoring Games.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Sertif 1</span></div>
+        <div class="ph" style="aspect-ratio:4/3;--g1:#274a86;--g2:#0f1c38;" data-label="Sertifikat 02" data-tag="Desain Cetak · Sertifikat" data-title="Sertifikat Peserta" data-desc="Versi sertifikat untuk peserta, mengikuti template dasar yang sama namun dengan penyesuaian foreground dan background agar tetap dapat dibedakan dari versi panitia."><img src="asset/Sertif Seminiar.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Sertif 2</span></div>
+        <div class="ph" style="aspect-ratio:4/3;--g1:#1c3660;--g2:#132445;" data-label="Sertifikat 03" data-tag="Desain Cetak · Sertifikat" data-title="Sertifikat Apresiasi" data-desc="Sertifikat apresiasi dengan ornamen tambahan pada border, tetap menjaga hierarki nama penerima sebagai elemen paling menonjol di halaman."><img src="asset/Sertif PM.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Sertif 3</span></div>
+      </div>
+      <div class="port-copy reveal">
+        <p>Sertifikat dengan layout yang hampir sama pada tiap acara. Penerapan warna dengan perbandingan 60-30-10 dan penyesuaian foreground serta background.</p>
+      </div>
+    </div>
+
+    <div class="sub-label">Banner</div>
+    <div class="port-block reverse">
+      <div class="port-copy reveal">
+        <p>Banner disusun sesuai brief, baik dari sisi teks, elemen, maupun layout sesuai permintaan. Eksplorasi pada tata letak elemen terlihat ramai tetapi tidak terlihat begitu padat.</p>
+      </div>
+      <div class="img-grid two reveal-stagger">
+        <div class="ph wide" style="--g1:#e0980a;--g2:#12213e;" data-label="Banner 01" data-tag="Desain Cetak · Banner" data-title="Banner Acara Utama" data-desc="Banner untuk acara berskala besar, mengikuti brief teks dan elemen dari panitia. Tata letak dibuat ramai secara visual namun tetap terasa lega dan tidak padat."><img src="asset/Banner gkr.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Banner 1</span></div>
+        <div class="ph wide" style="--g1:#274a86;--g2:#0f1c38;" data-label="Banner 02" data-tag="Desain Cetak · Banner" data-title="Banner Informasi Pendukung" data-desc="Banner pendukung dengan fokus pada satu pesan utama, elemen grafis ditata untuk mengarahkan mata pembaca langsung ke informasi terpenting."><img src="asset/x-banner gkr.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Banner 2</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DESAIN PRIBADI ================= -->
+<section class="alt" id="pribadi">
+  <div class="wrap">
+    <span class="eyebrow">Eksplorasi mandiri</span>
+    <h2 class="section-title">Desain <em>Pribadi</em></h2>
+    <p class="section-sub">Kumpulan proyek pribadi, dari pelatihan hingga eksplorasi mandiri mencoba style berbeda pada tiap desainnya — termasuk karya lomba bertema budaya Jawa, “Harmoni Indonesiaku” (2024).</p>
+    <div class="img-grid reveal-stagger" style="grid-template-columns:repeat(4,1fr);">
+      <div class="ph" style="--g1:#1c3660;--g2:#132445;" data-label="Pribadi 01" data-tag="Eksplorasi Mandiri" data-title="Hasil Pelatihan Desain" data-desc="Karya dari sesi pelatihan mandiri, digunakan untuk mempraktikkan teknik layout dan tipografi baru di luar kebutuhan organisasi."><img src="asset/Recreate Desain Sosmed.png" alt="Projek 1" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Projek 1</span></div>
+      <div class="ph" style="--g1:#274a86;--g2:#0f1c38;" data-label="Pribadi 02" data-tag="Eksplorasi Mandiri" data-title="Eksperimen Gaya Visual" data-desc="Eksplorasi gaya desain yang berbeda dari pekerjaan organisasi sehari-hari, sebagai ruang mencoba palet warna dan komposisi baru."><img src="asset/Ragnar Poster.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 01</span></div>
+      <div class="ph" style="--g1:#e0980a;--g2:#12213e;" data-label="Pribadi 03" data-tag="Eksplorasi Mandiri" data-title="Harmoni Indonesiaku (2024)" data-desc="Karya untuk lomba desain 2024 bertema budaya Jawa, mengangkat cerita dan elemen visual tradisional ke dalam komposisi modern."><img src="asset/Poster Harmoni Indonesiaku.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 01</span></div>
+      <div class="ph" style="--g1:#325a99;--g2:#132445;" data-label="Pribadi 04" data-tag="Eksplorasi Mandiri" data-title="Proyek Desain Bebas" data-desc="Proyek desain bebas tanpa brief klien, digunakan untuk terus mengasah kreativitas dan mencoba pendekatan desain yang belum pernah dipakai sebelumnya."><img src="asset/Promo Produk.png" alt="Feed 01" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+  <span style="position:relative; z-index:1;">Feed 01</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER / CONTACT ================= -->
+<footer id="contact">
+  <div class="wrap reveal">
+    <h2>Terima <em style="color:var(--yellow); font-style:normal;">Kasih</em></h2>
+    <p class="sub">Terbuka untuk kolaborasi dan project desain. Hubungi saya lewat salah satu kanal berikut.</p>
+    <div class="contact-row">
+      <a class="pill solid" href="mailto:ghof.ichsan@gmail.com">✉ ghof.ichsan@gmail.com</a>
+      <a class="pill" href="https://wa.me/6288220187342" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="pill" href="https://instagram.com/ichsango_" target="_blank" rel="noopener">📷 @ichsango_</a>
+      <a class="pill" href="https://id.pinterest.com/ichsango_/_created/" target="_blank" rel="noopener">📌 Pinterest</a>
+    </div>
+    <p class="fine">· © 2026 Ichsan Ghofur Oktafianto</p>
+  </div>
+</footer>
+
+<div id="portModal" aria-hidden="true">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close" id="modalClose" aria-label="Tutup">×</button>
+    <div class="modal-visual" id="modalVisual"><span id="modalVisualLabel">Preview</span></div>
+    <span class="modal-tag" id="modalTag">Kategori</span>
+    <h3 id="modalTitle">Judul</h3>
+    <p id="modalDesc">Deskripsi.</p>
+  </div>
+</div>
+
+<script>
+  // Fade-in on scroll via IntersectionObserver
+  const revealEls = document.querySelectorAll('.reveal, .reveal-stagger');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Desktop-mode notice for mobile visitors
+  const notice = document.getElementById('desktopNotice');
+  const closeNotice = document.getElementById('closeNotice');
+  let noticeDismissed = false;
+  function checkMobile(){
+    if (window.innerWidth < 820 && !noticeDismissed) {
+      notice.classList.add('show');
+    } else {
+      notice.classList.remove('show');
+    }
+  }
+  closeNotice.addEventListener('click', () => {
+    noticeDismissed = true;
+    notice.classList.remove('show');
+  });
+  window.addEventListener('resize', checkMobile);
+  checkMobile();
+
+  // ---------- Portfolio detail modal ----------
+  const modal = document.getElementById('portModal');
+  const modalVisual = document.getElementById('modalVisual');
+  const modalVisualLabel = document.getElementById('modalVisualLabel');
+  const modalTag = document.getElementById('modalTag');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalClose = document.getElementById('modalClose');
+  let lastFocused = null;
+
+  function openModal(el){
+    const g1 = getComputedStyle(el).getPropertyValue('--g1') || '#274a86';
+    const g2 = getComputedStyle(el).getPropertyValue('--g2') || '#0f1c38';
+    modalVisual.style.setProperty('--mg1', g1);
+    modalVisual.style.setProperty('--mg2', g2);
+    modalVisualLabel.textContent = el.dataset.label || '';
+    modalTag.textContent = el.dataset.tag || 'Portofolio';
+    modalTitle.textContent = el.dataset.title || 'Desain';
+    modalDesc.textContent = el.dataset.desc || 'Penjelasan belum tersedia untuk item ini.';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    lastFocused = document.activeElement;
+    modalClose.focus();
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.ph').forEach(el => {
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-haspopup', 'dialog');
+    el.addEventListener('click', () => openModal(el));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(el); }
+    });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+</script>
+</body>
+</html>
